@@ -27,6 +27,7 @@ import { authClient } from "@/lib/auth-client";
 
 function SignUpForm() {
   const router = useRouter();
+
   const registerSchema = z.object({
     name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
     email: z
@@ -39,6 +40,7 @@ function SignUpForm() {
       .trim()
       .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
   });
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -62,6 +64,7 @@ function SignUpForm() {
       console.error("Erro ao criar usuário:", error);
     }
   }
+
   return (
     <Card>
       <Form {...form}>
