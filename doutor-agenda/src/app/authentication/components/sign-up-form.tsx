@@ -1,8 +1,11 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +30,7 @@ import { authClient } from "@/lib/auth-client";
 
 function SignUpForm() {
   const router = useRouter();
+
   const registerSchema = z.object({
     name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
     email: z
@@ -39,6 +43,7 @@ function SignUpForm() {
       .trim()
       .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
   });
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -56,12 +61,26 @@ function SignUpForm() {
           password: values.password,
           name: values.name,
         },
-        { onSuccess: () => router.push("/dashboard") },
+        {
+          onSuccess: () => router.push("/dashboard"),
+          onError: (ctx) => {
+            if (
+              ctx.error.code === "UNPROCESSABLE_ENTITY" ||
+              ctx.error.code === "USER_ALREADY_EXISTS"
+            ) {
+              toast.error("Email já cadastrado");
+              return;
+            }
+
+            toast.error("Erro ao criar conta");
+          },
+        },
       );
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
     }
   }
+
   return (
     <Card>
       <Form {...form}>
