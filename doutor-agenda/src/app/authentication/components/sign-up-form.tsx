@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -58,7 +59,20 @@ function SignUpForm() {
           password: values.password,
           name: values.name,
         },
-        { onSuccess: () => router.push("/dashboard") },
+        {
+          onSuccess: () => router.push("/dashboard"),
+          onError: (ctx) => {
+            if (
+              ctx.error.code === "UNPROCESSABLE_ENTITY" ||
+              ctx.error.code === "USER_ALREADY_EXISTS"
+            ) {
+              toast.error("Email já cadastrado");
+              return;
+            }
+
+            toast.error("Erro ao criar conta");
+          },
+        },
       );
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
