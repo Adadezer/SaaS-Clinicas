@@ -17,7 +17,7 @@ function ClinicFormPage() {
         <DialogHeader>
           <DialogTitle>Adicione uma clínica</DialogTitle>
           <DialogDescription>
-            Adicione uma clínica para que você possa gerenciar seus pacientes.
+            Adicione uma clínica para continuar.
           </DialogDescription>
         </DialogHeader>
 
