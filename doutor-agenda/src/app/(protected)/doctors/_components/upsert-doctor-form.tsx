@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import { toast } from "sonner";
 import { z } from "zod";
 
+import { upsertDoctor } from "@/actions/upsert-doctor";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -60,27 +62,44 @@ const formDoctorSchema = z
     },
     {
       message:
-        "O horário de início não pode ser posterior ao horário de término.",
+        "O horário inicial deve ser anterior ao horário final de disponibilidade.",
       path: ["availableToTime"],
     },
   );
 
-function UpsertDoctorForm() {
+interface UpsertDoctorFormProps {
+  onSuccess?: () => void;
+}
+
+const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
   const form = useForm<z.infer<typeof formDoctorSchema>>({
     resolver: zodResolver(formDoctorSchema),
     defaultValues: {
       name: "",
       specialty: "",
       appointmentPrice: 0,
-      availableFromWeekDay: "0",
+      availableFromWeekDay: "1",
       availableToWeekDay: "5",
       availableFromTime: "",
       availableToTime: "",
     },
   });
-
+  const upsertDoctorAction = useAction(upsertDoctor, {
+    onSuccess: () => {
+      toast.success("Médico adicionado com sucesso.");
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error("Erro ao adicionar médico.");
+    },
+  });
   const onSubmit = (values: z.infer<typeof formDoctorSchema>) => {
-    console.log("Form submitted with data:", values);
+    upsertDoctorAction.execute({
+      ...values,
+      availableFromWeekDay: parseInt(values.availableFromWeekDay),
+      availableToWeekDay: parseInt(values.availableToWeekDay),
+      appointmentPriceInCents: values.appointmentPrice * 100,
+    });
   };
 
   return (
@@ -91,7 +110,7 @@ function UpsertDoctorForm() {
           Preencha os dados do médico para adicioná-lo ao sistema.
         </DialogDescription>
       </DialogHeader>
-      <ScrollArea className="max-h-[70vh] px-4">
+      <ScrollArea className="max-h-[80vh] w-full rounded-md border p-3">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -107,7 +126,6 @@ function UpsertDoctorForm() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="specialty"
@@ -138,7 +156,6 @@ function UpsertDoctorForm() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="appointmentPrice"
@@ -147,8 +164,8 @@ function UpsertDoctorForm() {
                   <FormLabel>Preço da consulta</FormLabel>
                   <NumericFormat
                     value={field.value}
-                    onValueChange={(values) => {
-                      field.onChange(values.floatValue);
+                    onValueChange={(value) => {
+                      field.onChange(value.floatValue);
                     }}
                     decimalScale={2}
                     fixedDecimalScale
@@ -157,14 +174,12 @@ function UpsertDoctorForm() {
                     allowLeadingZeros={false}
                     thousandSeparator="."
                     customInput={Input}
-                    prefix="R$ "
-                    placeholder="0,00"
+                    prefix="R$"
                   />
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="availableFromWeekDay"
@@ -194,7 +209,6 @@ function UpsertDoctorForm() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="availableToWeekDay"
@@ -203,7 +217,7 @@ function UpsertDoctorForm() {
                   <FormLabel>Dia Final de disponibilidade</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={field.value?.toString()}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -224,7 +238,6 @@ function UpsertDoctorForm() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="availableFromTime"
@@ -294,10 +307,9 @@ function UpsertDoctorForm() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
-              name="availableFromTime"
+              name="availableToTime"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Horário final de disponibilidade</FormLabel>
@@ -365,13 +377,15 @@ function UpsertDoctorForm() {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Adicionar</Button>
+              <Button type="submit" disabled={upsertDoctorAction.isPending}>
+                {upsertDoctorAction.isPending ? "Adicionando..." : "Adicionar"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
       </ScrollArea>
     </DialogContent>
   );
-}
+};
 
 export default UpsertDoctorForm;
