@@ -15,7 +15,9 @@ import {
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { doctorsTable } from "@/db/schema";
+import { formatCurrencyInCents } from "@/helpers/currency";
 
+import { getAvailability } from "../_helpers/availability";
 import UpsertDoctorForm from "./upsert-doctor-form";
 
 interface DoctorCardProps {
@@ -27,6 +29,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
     .map((name: string) => name[0].toUpperCase())
     .join("");
 
+  const availability = getAvailability(doctor);
   return (
     <Card>
       <CardHeader>
@@ -44,15 +47,16 @@ function DoctorCard({ doctor }: DoctorCardProps) {
       <CardContent className="flex flex-col gap-2">
         <Badge variant="outline">
           <CalendarIcon className="mr-1" />
-          Segunda a Sexta
+          {availability.from.format("dddd")} a {availability.to.format("dddd")}
         </Badge>
         <Badge variant="outline">
           <ClockIcon className="mr-1" />
-          {doctor.availableFromTime} - {doctor.availableToTime}
+          {availability.from.format("HH:mm")} às{" "}
+          {availability.to.format("HH:mm")}
         </Badge>
         <Badge variant="outline">
           <DollarSignIcon className="mr-1" />
-          {doctor.appointmentPriceInCents / 100}
+          {formatCurrencyInCents(doctor.appointmentPriceInCents)}
         </Badge>
       </CardContent>
       <Separator />
