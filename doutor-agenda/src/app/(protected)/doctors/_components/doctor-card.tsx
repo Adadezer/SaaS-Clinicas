@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarIcon, ClockIcon, DollarSignIcon } from "lucide-react";
-import React from "react";
+import { useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -23,13 +23,17 @@ import UpsertDoctorForm from "./upsert-doctor-form";
 interface DoctorCardProps {
   doctor: typeof doctorsTable.$inferSelect;
 }
-function DoctorCard({ doctor }: DoctorCardProps) {
+
+const DoctorCard = ({ doctor }: DoctorCardProps) => {
+  const [isUpsertDoctorDialogOpen, setIsUpsertDoctorDialogOpen] =
+    useState(false);
+
   const doctorInitials = doctor.name
     .split(" ")
-    .map((name: string) => name[0].toUpperCase())
+    .map((name) => name[0])
     .join("");
-
   const availability = getAvailability(doctor);
+
   return (
     <Card>
       <CardHeader>
@@ -51,7 +55,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
         </Badge>
         <Badge variant="outline">
           <ClockIcon className="mr-1" />
-          {availability.from.format("HH:mm")} às{" "}
+          {availability.from.format("HH:mm")} as{" "}
           {availability.to.format("HH:mm")}
         </Badge>
         <Badge variant="outline">
@@ -61,15 +65,25 @@ function DoctorCard({ doctor }: DoctorCardProps) {
       </CardContent>
       <Separator />
       <CardFooter>
-        <Dialog>
+        <Dialog
+          open={isUpsertDoctorDialogOpen}
+          onOpenChange={setIsUpsertDoctorDialogOpen}
+        >
           <DialogTrigger asChild>
-            <Button className="w-full">Ver Detalhes</Button>
+            <Button className="w-full">Ver detalhes</Button>
           </DialogTrigger>
-          <UpsertDoctorForm />
+          <UpsertDoctorForm
+            doctor={{
+              ...doctor,
+              availableFromTime: availability.from.format("HH:mm:ss"),
+              availableToTime: availability.to.format("HH:mm:ss"),
+            }}
+            onSuccess={() => setIsUpsertDoctorDialogOpen(false)}
+          />
         </Dialog>
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default DoctorCard;
