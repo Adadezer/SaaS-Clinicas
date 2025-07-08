@@ -6,6 +6,10 @@ export const upsertDoctorSchema = z
     name: z.string().trim().min(1, {
       message: "Nome é obrigatório.",
     }),
+    lastName: z.string().trim().min(1, {
+      message: "Sobrenome é obrigatório.",
+    }),
+    sex: z.enum(["male", "female"]),
     specialty: z.string().trim().min(1, {
       message: "Especialidade é obrigatória.",
     }),
