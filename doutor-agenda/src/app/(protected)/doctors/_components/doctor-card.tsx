@@ -32,8 +32,8 @@ import { Separator } from "@/components/ui/separator";
 import { doctorsTable } from "@/db/schema";
 import { formatCurrencyInCents } from "@/helpers/currency";
 
+import { getAvatarUrl } from "../../../../helpers/avatarGenerate";
 import { getAvailability } from "../_helpers/availability";
-import { getDoctorAvatarUrl } from "../_helpers/avatarGenerate";
 import UpsertDoctorForm from "./upsert-doctor-form";
 
 interface DoctorCardProps {
@@ -60,7 +60,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
 
   const availability = getAvailability(doctor);
 
-  const avatarUrl = getDoctorAvatarUrl({
+  const avatarUrl = getAvatarUrl({
     name: doctor.name,
     lastName: doctor.lastName,
     sex: doctor.sex,

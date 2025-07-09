@@ -12,7 +12,7 @@ export const AvatarStringIdToIndex = (str: string, max: number) => {
 };
 
 // Monta a URL do avatar baseado em nome, sobrenome e sexo
-export const getDoctorAvatarUrl = ({
+export const getAvatarUrl = ({
   name,
   lastName,
   sex,
