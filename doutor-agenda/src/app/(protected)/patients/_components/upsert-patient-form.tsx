@@ -97,8 +97,6 @@ const UpsertPatientForm = ({
         ...values,
         id: patient.id,
       });
-    } else {
-      upsertPatientAction.execute(values);
     }
   };
 
