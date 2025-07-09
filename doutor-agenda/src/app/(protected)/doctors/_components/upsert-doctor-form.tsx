@@ -135,7 +135,7 @@ const UpsertDoctorForm = ({ doctor, onSuccess }: UpsertDoctorFormProps) => {
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="digite o nome do médico" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +149,10 @@ const UpsertDoctorForm = ({ doctor, onSuccess }: UpsertDoctorFormProps) => {
                 <FormItem>
                   <FormLabel>Sobrenome</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      placeholder="digite o sobrenome do médico"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
