@@ -32,8 +32,8 @@ import { Separator } from "@/components/ui/separator";
 import { doctorsTable } from "@/db/schema";
 import { formatCurrencyInCents } from "@/helpers/currency";
 
+import { getAvatarUrl } from "../../../../helpers/avatarGenerate";
 import { getAvailability } from "../_helpers/availability";
-import { getDoctorAvatarUrl } from "../_helpers/avatarGenerate";
 import UpsertDoctorForm from "./upsert-doctor-form";
 
 interface DoctorCardProps {
@@ -58,13 +58,9 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
     deleteDoctorAction.execute({ id: doctor.id });
   };
 
-  const doctorInitials = doctor.name
-    .split(" ")
-    .map((name) => name[0])
-    .join("");
   const availability = getAvailability(doctor);
 
-  const avatarUrl = getDoctorAvatarUrl({
+  const avatarUrl = getAvatarUrl({
     name: doctor.name,
     lastName: doctor.lastName,
     sex: doctor.sex,
@@ -76,7 +72,11 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         <div className="flex items-center gap-2">
           <Avatar className="h-10 w-10">
             <AvatarImage src={avatarUrl} alt={doctor.name} />
-            <AvatarFallback>{doctorInitials}</AvatarFallback>
+            <AvatarFallback>
+              {doctor.name && doctor.lastName
+                ? `${doctor.name[0]}${doctor.lastName[0]}`.toUpperCase()
+                : "UK"}
+            </AvatarFallback>
           </Avatar>
           <div>
             <h3 className="text-sm font-medium">{`${doctor.name} ${doctor.lastName}`}</h3>
