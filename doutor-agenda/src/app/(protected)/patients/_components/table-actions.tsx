@@ -53,7 +53,7 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
   return (
     <Dialog open={upsertDialogIsOpen} onOpenChange={setUpsertDialogIsOpen}>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon">
             <MoreVerticalIcon className="h-4 w-4" />
           </Button>
@@ -69,7 +69,7 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
             <AlertDialogTrigger asChild>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <TrashIcon />
-                Excluir
+                Deletar
               </DropdownMenuItem>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -84,7 +84,10 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeletePatientClick}>
+                <AlertDialogAction
+                  className="text-destructive bg-background border border-red-500 hover:bg-red-50"
+                  onClick={handleDeletePatientClick}
+                >
                   Deletar
                 </AlertDialogAction>
               </AlertDialogFooter>
