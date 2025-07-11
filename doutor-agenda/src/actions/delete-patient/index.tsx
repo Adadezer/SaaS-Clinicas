@@ -22,7 +22,7 @@ export const deletePatient = actionClient
     });
 
     if (!session?.user) {
-      throw new Error("Unauthorized");
+      throw new Error("Usuário não autorizado");
     }
 
     const patient = await db.query.patientsTable.findFirst({
