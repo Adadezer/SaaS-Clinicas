@@ -97,6 +97,8 @@ const UpsertPatientForm = ({
         ...values,
         id: patient.id,
       });
+    } else {
+      upsertPatientAction.execute(values);
     }
   };
 
@@ -193,10 +195,7 @@ const UpsertPatientForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sexo</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione o sexo" />
