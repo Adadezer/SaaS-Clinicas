@@ -129,17 +129,17 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Tem certeza que deseja excluir este médico?
+                  Tem certeza que deseja deletar este médico?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  Essa ação não pode ser desfeita. Isso irá deletar o médico e
+                  Essa ação não pode ser revertida. Isso irá deletar o médico e
                   todas as consultas agendadas.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction
-                  className="text-destructive bg-background border-rounded border border-red-500 hover:bg-red-50"
+                  className="text-destructive bg-background border border-red-500 hover:bg-red-50"
                   onClick={handleDeleteDoctorClick}
                 >
                   <TrashIcon />
