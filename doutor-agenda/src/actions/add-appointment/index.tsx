@@ -1,3 +1,8 @@
+/* Os agendamentos não terão a opção de editar, apenas adicionar e excluir,
+(assim como é nos hospitais e Upa's, podendo apenas marcar e remarcar consultas para outro dia.)
+
+TO DO: Se desejar colocar uma opção de edidar agendamentos, mudar nome das funções para upsert, e fazer ajustes devidos no código */
+
 "use server";
 
 import dayjs from "dayjs";
@@ -9,10 +14,10 @@ import { appointmentsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { actionClient } from "@/lib/next-safe-action";
 
-import { upsertAppointmentSchema } from "./schema";
+import { addAppointmentSchema } from "./schema";
 
-export const upsertAppointment = actionClient
-  .schema(upsertAppointmentSchema)
+export const addAppointment = actionClient
+  .schema(addAppointmentSchema)
   .action(async ({ parsedInput }) => {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -31,7 +36,16 @@ export const upsertAppointment = actionClient
       .set("minute", parseInt(parsedInput.time.split(":")[1]))
       .toDate();
 
-    await db
+    await db.insert(appointmentsTable).values({
+      ...parsedInput,
+      clinicId: session?.user.clinic?.id,
+      date: appointmentDateTime,
+    });
+
+    /* 
+      Caso upsert:
+      
+      await db
       .insert(appointmentsTable)
       .values({
         ...parsedInput,
@@ -45,7 +59,7 @@ export const upsertAppointment = actionClient
           ...parsedInput,
           date: appointmentDateTime,
         },
-      });
+      }); */
 
     revalidatePath("/appointments");
   });
