@@ -78,9 +78,11 @@ const AppointmentsTableActions = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel className="hover: cursor-pointer">
+            Cancelar
+          </AlertDialogCancel>
           <AlertDialogAction
-            className="text-destructive bg-background border border-red-500 hover:bg-red-50"
+            className="text-destructive bg-background border border-red-500 hover:cursor-pointer hover:bg-red-50"
             onClick={handleDeleteAppointmentClick}
           >
             <TrashIcon />

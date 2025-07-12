@@ -107,7 +107,9 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           onOpenChange={setIsUpsertDoctorDialogOpen}
         >
           <DialogTrigger asChild>
-            <Button className="w-full">Ver detalhes</Button>
+            <Button className="w-full hover:cursor-pointer">
+              Ver detalhes
+            </Button>
           </DialogTrigger>
           <UpsertDoctorForm
             doctor={{
@@ -121,7 +123,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         {doctor && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full hover:cursor-pointer">
                 <TrashIcon />
                 Deletar médico
               </Button>
@@ -137,9 +139,11 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogCancel className="hover: cursor-pointer">
+                  Cancelar
+                </AlertDialogCancel>
                 <AlertDialogAction
-                  className="text-destructive bg-background border border-red-500 hover:bg-red-50"
+                  className="text-destructive bg-background border border-red-500 hover:cursor-pointer hover:bg-red-50"
                   onClick={handleDeleteDoctorClick}
                 >
                   <TrashIcon />

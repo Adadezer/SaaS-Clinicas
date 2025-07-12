@@ -100,7 +100,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild className="hover: cursor-pointer">
                 <SidebarMenuButton size="lg">
                   <Avatar>
                     {session.data?.user?.image ? (
@@ -123,7 +123,10 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={handleSignOut}>
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className="hover: cursor-pointer"
+                >
                   <LogOut />
                   Sair
                 </DropdownMenuItem>

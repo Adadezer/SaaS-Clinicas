@@ -141,7 +141,7 @@ function SignUpForm() {
           <CardFooter>
             <Button
               type="submit"
-              className="w-full"
+              className="w-full hover:cursor-pointer"
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (

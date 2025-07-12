@@ -13,7 +13,7 @@ function AddDoctorButton() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="hover: cursor-pointer">
           <Plus />
           Adicionar Médico
         </Button>

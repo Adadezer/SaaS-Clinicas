@@ -22,8 +22,12 @@ async function AuthenticationPage() {
       <div className="flex w-full max-w-sm flex-col gap-6">
         <Tabs defaultValue="login">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="register">Criar Conta</TabsTrigger>
+            <TabsTrigger value="login" className="hover: cursor-pointer">
+              Login
+            </TabsTrigger>
+            <TabsTrigger value="register" className="hover: cursor-pointer">
+              Criar Conta
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="login">
             <LoginForm />

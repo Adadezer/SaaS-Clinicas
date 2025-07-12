@@ -13,7 +13,7 @@ const AddPatientButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="hover: cursor-pointer">
           <Plus />
           Adicionar paciente
         </Button>
