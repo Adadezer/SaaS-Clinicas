@@ -448,7 +448,11 @@ const UpsertDoctorForm = ({ doctor, onSuccess }: UpsertDoctorFormProps) => {
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={upsertDoctorAction.isPending}>
+              <Button
+                type="submit"
+                disabled={upsertDoctorAction.isPending}
+                className="hover: cursor-pointer"
+              >
                 {upsertDoctorAction.isPending
                   ? "Salvando..."
                   : doctor

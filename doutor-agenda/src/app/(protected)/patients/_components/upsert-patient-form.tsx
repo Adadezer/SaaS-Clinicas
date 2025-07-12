@@ -211,7 +211,11 @@ const UpsertPatientForm = ({
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={upsertPatientAction.isPending}>
+              <Button
+                type="submit"
+                disabled={upsertPatientAction.isPending}
+                className="hover: cursor-pointer"
+              >
                 {upsertPatientAction.isPending
                   ? "Salvando..."
                   : patient

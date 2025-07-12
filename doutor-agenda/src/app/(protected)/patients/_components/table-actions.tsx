@@ -54,20 +54,26 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
     <Dialog open={upsertDialogIsOpen} onOpenChange={setUpsertDialogIsOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="hover: cursor-pointer">
             <MoreVerticalIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{patient.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setUpsertDialogIsOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => setUpsertDialogIsOpen(true)}
+            className="hover: cursor-pointer"
+          >
             <EditIcon />
             Editar
           </DropdownMenuItem>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <DropdownMenuItem
+                onSelect={(e) => e.preventDefault()}
+                className="hover: cursor-pointer"
+              >
                 <TrashIcon />
                 Deletar
               </DropdownMenuItem>
@@ -83,9 +89,11 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogCancel className="hover: cursor-pointer">
+                  Cancelar
+                </AlertDialogCancel>
                 <AlertDialogAction
-                  className="text-destructive bg-background border border-red-500 hover:bg-red-50"
+                  className="text-destructive bg-background border border-red-500 hover:cursor-pointer hover:bg-red-50"
                   onClick={handleDeletePatientClick}
                 >
                   Deletar

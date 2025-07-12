@@ -20,7 +20,6 @@ function ClinicFormPage() {
             Adicione uma clínica para continuar.
           </DialogDescription>
         </DialogHeader>
-
         <ClinicForm />
       </DialogContent>
     </Dialog>
