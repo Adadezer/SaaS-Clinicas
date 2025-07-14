@@ -17,7 +17,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-// import { Button } from "@/components/ui/button";
 import { appointmentsTable } from "@/db/schema";
 
 type AppointmentWithRelations = typeof appointmentsTable.$inferSelect & {
