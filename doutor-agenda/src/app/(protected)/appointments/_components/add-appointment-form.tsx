@@ -110,6 +110,7 @@ const AddAppointmentForm = ({
         date: dayjs(selectedDate).format("YYYY-MM-DD"),
         doctorId: selectedDoctorId,
       }),
+    enabled: !!selectedDate && !!selectedDoctorId,
   });
 
   // Atualizar o preço quando o médico for selecionado
@@ -156,6 +157,23 @@ const AddAppointmentForm = ({
       // id: appointment?.id,
       appointmentPriceInCents: values.appointmentPrice * 100,
     });
+  };
+
+  const isDateAvailable = (date: Date) => {
+    if (!selectedDoctorId) return false;
+
+    const selectedDoctor = doctors.find(
+      (doctor) => doctor.id === selectedDoctorId,
+    );
+
+    if (!selectedDoctor) return false;
+
+    const dayOffWeek = date.getDay();
+
+    return (
+      dayOffWeek >= selectedDoctor?.availableFromWeekDay &&
+      dayOffWeek <= selectedDoctor?.availableToWeekDay
+    );
   };
 
   const isDateTimeEnabled = selectedPatientId && selectedDoctorId;
@@ -290,7 +308,7 @@ const AddAppointmentForm = ({
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
+                          date < new Date() || !isDateAvailable(date)
                         }
                         initialFocus
                         // locale={ptBR}
