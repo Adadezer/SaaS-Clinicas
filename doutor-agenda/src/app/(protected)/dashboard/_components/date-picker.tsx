@@ -4,7 +4,7 @@ import { addMonths, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { parseAsIsoDate, useQueryState } from "nuqs";
-import * as React from "react";
+import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
@@ -27,60 +27,79 @@ export function DatePicker({
     "to",
     parseAsIsoDate.withDefault(addMonths(new Date(), 1)),
   );
-  const handleDateSelect = (dateRange: DateRange | undefined) => {
-    if (dateRange?.from) {
-      setFrom(dateRange.from);
-    }
-    if (dateRange?.to) {
-      setTo(dateRange.to);
-    }
-  };
-  const date = {
+
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [temporaryRange, setTemporaryRange] = useState<DateRange | undefined>({
     from,
     to,
+  });
+
+  const handleDateSelect = (range: DateRange | undefined) => {
+    setTemporaryRange(range);
   };
+
+  const handleApply = () => {
+    if (temporaryRange?.from) setFrom(temporaryRange.from);
+    if (temporaryRange?.to) setTo(temporaryRange.to);
+    setOpenDatePicker(false);
+  };
+
   return (
     <div className={cn("grid gap-2", className)}>
-      <Popover>
+      <Popover open={openDatePicker} onOpenChange={setOpenDatePicker}>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
               "justify-start text-left font-normal",
-              !date && "text-muted-foreground",
+              !from && "text-muted-foreground",
             )}
           >
-            <CalendarIcon />
-            {date?.from ? (
-              date.to ? (
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {from ? (
+              to ? (
                 <>
-                  {format(date.from, "LLL dd, y", {
-                    locale: ptBR,
-                  })}{" "}
-                  -{" "}
-                  {format(date.to, "LLL dd, y", {
-                    locale: ptBR,
-                  })}
+                  {format(from, "LLL dd, y", { locale: ptBR })} -{" "}
+                  {format(to, "LLL dd, y", { locale: ptBR })}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(from, "LLL dd, y", { locale: ptBR })
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Selecione uma data</span>
             )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={handleDateSelect}
-            numberOfMonths={2}
-            locale={ptBR}
-          />
+          <div className="flex flex-col gap-2 p-2">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={from}
+              selected={temporaryRange}
+              onSelect={handleDateSelect}
+              numberOfMonths={2}
+              locale={ptBR}
+              className="light:bg-red-500 dark:bg-red-950"
+            />
+            <div className="flex gap-2 p-2">
+              <Button
+                onClick={handleApply}
+                className="flex-1"
+                disabled={!temporaryRange?.from || !temporaryRange?.to}
+              >
+                Concluído
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setOpenDatePicker(false)}
+                className="flex-1"
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </div>
