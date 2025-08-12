@@ -21,6 +21,7 @@ import StatsCards from "./_components/stats-cards";
 import dayjs from "dayjs";
 import AppointmentsChart from "./_components/appointments-chart";
 import TopDoctors from "./_components/top-doctors";
+import TopSpecialties from "./_components/top-specialties";
 
 interface DashboardPageProps {
   searchParams: {
@@ -56,6 +57,7 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
     [totalPatients],
     [totalDoctors],
     topDoctors,
+    topSpecialties,
   ] = await Promise.all([
     db
       .select({
@@ -69,6 +71,7 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
           lte(appointmentsTable.date, new Date(to)),
         ),
       ),
+
     db
       .select({
         total: count(),
@@ -81,18 +84,21 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
           lte(appointmentsTable.date, new Date(to)),
         ),
       ),
+
     db
       .select({
         total: count(),
       })
       .from(patientsTable)
       .where(eq(patientsTable.clinicId, session.user.clinic.id)),
+
     db
       .select({
         total: count(),
       })
       .from(doctorsTable)
       .where(eq(doctorsTable.clinicId, session.user.clinic.id)),
+
     db
       .select({
         id: doctorsTable.id,
@@ -116,6 +122,28 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
       .groupBy(doctorsTable.id)
       .orderBy(desc(count(appointmentsTable.id)))
       .limit(10),
+
+    db
+      .select({
+        specialty: doctorsTable.specialty, // pega a especialidade de cada médico.
+        appointments: count(appointmentsTable.id), // conta o número de agendamentos de cada especialidade
+      })
+      .from(appointmentsTable)
+      // Liga a tabela de agendamentos (appointmentsTable) com a tabela de médicos (doctorsTable) usando doctorId.
+      // O INNER JOIN garante que só vai retornar agendamentos que têm um médico correspondente.
+      .innerJoin(doctorsTable, eq(appointmentsTable.doctorId, doctorsTable.id))
+      .where(
+        and(
+          eq(appointmentsTable.clinicId, session.user.clinic.id),
+          gte(appointmentsTable.date, new Date(from)),
+          lte(appointmentsTable.date, new Date(to)),
+        ),
+      )
+      // Agrupa os resultados por especialidade, para que cada especialidade seja uma linha na tabela final.
+      // Usa o count para contar quantos agendamentos existem para cada especialidade.
+      .groupBy(doctorsTable.specialty)
+      // Ordena as especialidades pela quantidade de agendamentos em ordem decrescente. O mais agendado vem primeiro.
+      .orderBy(desc(count(appointmentsTable.id))), //
   ]);
 
   const chartStartDate = dayjs().subtract(30, "days").startOf("day").toDate();
@@ -168,6 +196,10 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
       <div className="grid grid-cols-[2.25fr_1fr] gap-4">
         <AppointmentsChart dailyAppointmentsData={dailyAppointmentsData} />
         <TopDoctors doctors={topDoctors} />
+      </div>
+      <div className="grid grid-cols-[2.25fr_1fr] gap-4">
+        {/* Tabela */}
+        <TopSpecialties topSpecialties={topSpecialties} />
       </div>
     </PageContainer>
   );

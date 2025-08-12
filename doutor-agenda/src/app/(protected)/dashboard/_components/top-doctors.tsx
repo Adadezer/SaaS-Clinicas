@@ -1,7 +1,7 @@
 import { Stethoscope } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { getAvatarUrl } from "@/helpers/avatarGenerate";
+import { getAvatarUrl } from "@/helpers/avatar-generate";
 
 interface TopDoctorsProps {
   doctors: {

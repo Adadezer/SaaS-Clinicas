@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/select";
 import { doctorsTable } from "@/db/schema";
 
-import { medicalSpecialties } from "../_constants";
+import { medicalSpecialties } from "../../../../helpers/medical-specialty";
 
 const formDoctorSchema = z
   .object({

@@ -32,7 +32,7 @@ import { Separator } from "@/components/ui/separator";
 import { doctorsTable } from "@/db/schema";
 import { formatCurrencyInCents } from "@/helpers/currency";
 
-import { getAvatarUrl } from "../../../../helpers/avatarGenerate";
+import { getAvatarUrl } from "../../../../helpers/avatar-generate";
 import { getAvailability } from "../_helpers/availability";
 import UpsertDoctorForm from "./upsert-doctor-form";
 
