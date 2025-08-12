@@ -16,9 +16,10 @@ import {
 import { DatePicker } from "./_components/date-picker";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { db } from "@/db";
-import { and, count, eq, gte, lte, sum } from "drizzle-orm";
+import { and, count, eq, gte, lte, sql, sum } from "drizzle-orm";
 import StatsCards from "./_components/stats-cards";
 import dayjs from "dayjs";
+import AppointmentsChart from "./_components/appointments-chart";
 
 interface DashboardPageProps {
   searchParams: {
@@ -88,6 +89,31 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
         .where(eq(doctorsTable.clinicId, session.user.clinic.id)),
     ]);
 
+  const chartStartDate = dayjs().subtract(30, "days").startOf("day").toDate();
+  const chartEndDate = dayjs().add(30, "days").endOf("day").toDate();
+
+  const dailyAppointmentsData = await db
+    .select({
+      date: sql<string>`DATE(${appointmentsTable.date})`.as("date"), // transforma os dados do tipo Date para string
+      appointments: count(appointmentsTable.id), // conta o número de agendamentos
+      revenue:
+        sql<number>`COALESCE(SUM(${appointmentsTable.appointmentPriceInCents}), 0)`.as(
+          // soma os valores dos agendamentos
+          "revenue",
+        ),
+    })
+    .from(appointmentsTable)
+    .where(
+      // pega os dados de um range (dia inicial, dia final)
+      and(
+        eq(appointmentsTable.clinicId, session.user.clinic.id),
+        gte(appointmentsTable.date, chartStartDate),
+        lte(appointmentsTable.date, chartEndDate),
+      ),
+    )
+    .groupBy(sql`DATE(${appointmentsTable.date})`)
+    .orderBy(sql`DATE(${appointmentsTable.date})`);
+
   return (
     <PageContainer>
       <PageHeader>
@@ -110,6 +136,9 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
           totalDoctors={totalDoctors.total}
         />
       </PageContent>
+      <div className="grid grid-cols-[2.25fr_1fr] gap-4">
+        <AppointmentsChart dailyAppointmentsData={dailyAppointmentsData} />
+      </div>
     </PageContainer>
   );
 }
