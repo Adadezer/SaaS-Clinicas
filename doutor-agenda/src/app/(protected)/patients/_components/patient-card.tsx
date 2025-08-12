@@ -16,7 +16,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { patientsTable } from "@/db/schema";
 
-import { getAvatarUrl } from "../../../../helpers/avatarGenerate";
+import { getAvatarUrl } from "../../../../helpers/avatar-generate";
 import UpsertPatientForm from "./upsert-patient-form";
 
 interface PatientCardProps {

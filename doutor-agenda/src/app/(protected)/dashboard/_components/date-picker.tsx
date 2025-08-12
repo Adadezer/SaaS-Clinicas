@@ -81,7 +81,6 @@ export function DatePicker({
               onSelect={handleDateSelect}
               numberOfMonths={2}
               locale={ptBR}
-              className="light:bg-red-500 dark:bg-red-950"
             />
             <div className="flex gap-2 p-2">
               <Button
