@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import AppointmentsChart from "./_components/appointments-chart";
 import TopDoctors from "./_components/top-doctors";
 import TopSpecialties from "./_components/top-specialties";
+import TodayAppointmentsTable from "./_components/today-appointments-table";
 
 interface DashboardPageProps {
   searchParams: {
@@ -58,6 +59,7 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
     [totalDoctors],
     topDoctors,
     topSpecialties,
+    todayAppointments,
   ] = await Promise.all([
     db
       .select({
@@ -143,7 +145,19 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
       // Usa o count para contar quantos agendamentos existem para cada especialidade.
       .groupBy(doctorsTable.specialty)
       // Ordena as especialidades pela quantidade de agendamentos em ordem decrescente. O mais agendado vem primeiro.
-      .orderBy(desc(count(appointmentsTable.id))), //
+      .orderBy(desc(count(appointmentsTable.id))),
+
+    db.query.appointmentsTable.findMany({
+      where: and(
+        eq(appointmentsTable.clinicId, session.user.clinic.id),
+        gte(appointmentsTable.date, dayjs().startOf("day").toDate()),
+        lte(appointmentsTable.date, dayjs().endOf("day").toDate()),
+      ),
+      with: {
+        patient: true,
+        doctor: true,
+      },
+    }),
   ]);
 
   const chartStartDate = dayjs().subtract(30, "days").startOf("day").toDate();
@@ -198,7 +212,7 @@ async function DashboardPage({ searchParams }: DashboardPageProps) {
         <TopDoctors doctors={topDoctors} />
       </div>
       <div className="grid grid-cols-[2.25fr_1fr] gap-4">
-        {/* Tabela */}
+        <TodayAppointmentsTable todayAppointments={todayAppointments} />
         <TopSpecialties topSpecialties={topSpecialties} />
       </div>
     </PageContainer>
