@@ -2,6 +2,7 @@
 
 import {
   CalendarDays,
+  Gem,
   LayoutDashboard,
   LogOut,
   Stethoscope,
@@ -32,8 +33,8 @@ import {
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 
-// Menu items.
-const items = [
+// itens do menu
+const menuItems = [
   {
     title: "Dashboard",
     url: "/dashboard",
@@ -54,6 +55,11 @@ const items = [
     url: "/patients",
     icon: UsersRound,
   },
+  {
+    title: "Planos",
+    url: "/subscription",
+    icon: Gem,
+  },
 ];
 
 export function AppSidebar() {
@@ -66,6 +72,9 @@ export function AppSidebar() {
       fetchOptions: { onSuccess: () => router.push("/authentication") },
     });
   };
+
+  const planItem = menuItems.find((item) => item.title === "Planos"); // pega todo o objeto onde o title seja planos
+  if (!planItem) return null;
 
   return (
     <Sidebar>
@@ -82,16 +91,44 @@ export function AppSidebar() {
           <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={phaname === item.url}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.slice(0, 4).map(
+                (
+                  item, //pega os 4 primeiros itens
+                ) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={phaname === item.url}
+                      className="data-[active=true]:text-primary data data-[active=true]:bg-primary/4 data"
+                    >
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ),
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Outros</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem key={planItem.title}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={phaname === planItem.url}
+                  className="data-[active=true]:text-primary data data-[active=true]:bg-primary/4 data"
+                >
+                  <Link href={planItem.url}>
+                    <planItem.icon />
+                    <span>{planItem.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
