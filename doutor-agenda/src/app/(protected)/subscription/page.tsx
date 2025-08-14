@@ -8,8 +8,23 @@ import {
 } from "@/components/ui/page-container";
 
 import { SubscriptionPlan } from "./_components/subscription-plan";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-const SubscriptionPage = () => {
+const SubscriptionPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/login");
+  }
+
+  if (!session.user.clinic) {
+    redirect("/clinic-form");
+  }
+
   return (
     <PageContainer>
       <PageHeader>
@@ -19,7 +34,11 @@ const SubscriptionPage = () => {
         </PageHeaderContent>
       </PageHeader>
       <PageContent>
-        <SubscriptionPlan className="w-[350px]" />
+        <SubscriptionPlan
+          className="w-[350px]"
+          active={session.user.plan === "essential"}
+          userEmail={session.user.email}
+        />
       </PageContent>
     </PageContainer>
   );

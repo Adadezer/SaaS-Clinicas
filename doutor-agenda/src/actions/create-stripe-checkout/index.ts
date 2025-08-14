@@ -17,7 +17,7 @@ export const createStripeCheckout = actionClient.action(async () => {
     throw new Error("Clinic not found");
   }
   if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error("Stripe secret key not found123");
+    throw new Error("Stripe secret key not found");
   }
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2025-05-28.basil",
