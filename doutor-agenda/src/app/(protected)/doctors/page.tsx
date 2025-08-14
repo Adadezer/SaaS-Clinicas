@@ -30,6 +30,10 @@ async function DoctorsPage() {
     redirect("/clinic-form");
   }
 
+  if (!session.user.plan) {
+    redirect("/plans"); // redirect("/new-subscription");
+  }
+
   const doctors = await db.query.doctorsTable.findMany({
     where: eq(doctorsTable.clinicId, session.user.clinic.id),
   });
@@ -48,9 +52,11 @@ async function DoctorsPage() {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
           {doctors.map((doctor) => (
-            <DoctorCard key={doctor.id} doctor={doctor} />
+            <div key={doctor.id}>
+              <DoctorCard doctor={doctor} />
+            </div>
           ))}
         </div>
       </PageContent>

@@ -21,7 +21,7 @@ export default function TopSpecialties({
   );
 
   return (
-    <Card className="mx-auto w-full">
+    <Card className="col-span-12 md:col-span-3">
       <CardContent>
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">

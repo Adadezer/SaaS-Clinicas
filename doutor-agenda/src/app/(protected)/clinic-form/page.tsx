@@ -9,8 +9,23 @@ import {
 } from "@/components/ui/dialog";
 
 import ClinicForm from "./_components/form";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-function ClinicFormPage() {
+const ClinicFormPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/login");
+  }
+
+  if (!session.user.plan) {
+    redirect("/plans"); // redirect("/new-subscription");
+  }
+
   return (
     <Dialog open={true}>
       <DialogContent className="sm:max-w-[425px]">
@@ -24,6 +39,6 @@ function ClinicFormPage() {
       </DialogContent>
     </Dialog>
   );
-}
+};
 
 export default ClinicFormPage;
