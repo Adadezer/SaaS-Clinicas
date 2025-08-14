@@ -56,7 +56,7 @@ const menuItems = [
     icon: UsersRound,
   },
   {
-    title: "Planos",
+    title: "Assinaturas",
     url: "/subscription",
     icon: Gem,
   },
@@ -73,7 +73,7 @@ export function AppSidebar() {
     });
   };
 
-  const planItem = menuItems.find((item) => item.title === "Planos"); // pega todo o objeto onde o title seja planos
+  const planItem = menuItems.find((item) => item.title === "Assinaturas"); // pega todo o objeto onde o title seja planos
   if (!planItem) return null;
 
   return (
