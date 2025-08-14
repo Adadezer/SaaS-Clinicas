@@ -11,6 +11,7 @@ import { SubscriptionPlan } from "./_components/subscription-plan";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { PremiumPlan } from "./_components/premium-plan";
 
 const SubscriptionPage = async () => {
   const session = await auth.api.getSession({
@@ -34,11 +35,17 @@ const SubscriptionPage = async () => {
         </PageHeaderContent>
       </PageHeader>
       <PageContent>
-        <SubscriptionPlan
-          className="w-[350px]"
-          active={session.user.plan === "essential"}
-          userEmail={session.user.email}
-        />
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="max-w-[540px] flex-1">
+            <SubscriptionPlan
+              active={session.user.plan === "essential"}
+              userEmail={session.user.email}
+            />
+          </div>
+          <div className="max-w-[550px] flex-1">
+            <PremiumPlan />
+          </div>
+        </div>
       </PageContent>
     </PageContainer>
   );

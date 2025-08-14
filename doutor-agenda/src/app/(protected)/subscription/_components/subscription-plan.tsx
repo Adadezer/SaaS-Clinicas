@@ -43,13 +43,17 @@ export function SubscriptionPlan({
   });
 
   const features = [
-    "Cadastro de até 3 médicos",
     "Agendamentos ilimitados",
-    "Métricas básicas",
     "Cadastro de pacientes",
+    "Cadastro de até 8 médicos",
+    "Métricas básicas",
     "Confirmação manual",
     "Suporte via e-mail",
+    "Sem Exportação de relatórios",
+    "Sem Integração com convênios",
   ];
+
+  console.log("fetures tamanho:", features.length);
 
   const handleSubscribeClick = () => {
     createStripeCheckoutAction.execute();
@@ -73,7 +77,7 @@ export function SubscriptionPlan({
           )}
         </div>
         <p className="text-gray-600">
-          Para profissionais autônomos ou pequenas clínicas
+          Solução prática para profissionais independentes e pequenas clínicas
         </p>
         <div className="flex items-baseline">
           <span className="text-3xl font-bold text-gray-900">R$59</span>
@@ -86,7 +90,15 @@ export function SubscriptionPlan({
           {features.map((feature, index) => (
             <div key={index} className="flex items-start">
               <div className="flex-shrink-0">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <CheckCircle2
+                  className={`h-5 w-5 ${
+                    index <= 1
+                      ? "text-green-500" // primeiros 6
+                      : index < 6
+                        ? "text-primary" // índice 6
+                        : "text-red-500" // restante
+                  }`}
+                />
               </div>
               <p className="ml-3 text-gray-600">{feature}</p>
             </div>
