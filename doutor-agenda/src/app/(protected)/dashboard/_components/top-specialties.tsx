@@ -1,7 +1,8 @@
+import { Hospital } from "lucide-react";
+
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { SpecialtyIcons } from "@/helpers/specialty-icon";
-import { Hospital } from "lucide-react";
 
 interface TopSpecialtiesProps {
   topSpecialties: {

@@ -1,7 +1,9 @@
 import { Calendar } from "lucide-react";
+import React from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import React from "react";
+
 import { appointmentsTableColumns } from "../../appointments/_components/table-columns";
 
 interface TodayAppointmentsTableProps {

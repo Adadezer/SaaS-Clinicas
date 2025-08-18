@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -50,7 +50,7 @@ export function PremiumPlan({ className }: PremiumPlanProps) {
 
         <div className="mt-8">
           <Button className="w-full" variant="outline">
-            "Fazer assinatura"
+            Fazer assinatura
           </Button>
         </div>
       </CardContent>
