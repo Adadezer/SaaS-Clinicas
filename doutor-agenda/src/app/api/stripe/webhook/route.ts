@@ -38,15 +38,15 @@ export const POST = async (request: Request) => {
         };
       };
 
-      const { subscription, subscription_details } = event.data.object
-        .parent as unknown as {
-        subscription: string;
+      const { subscription_details } = event.data.object.parent as unknown as {
         subscription_details: {
+          subscription: string;
           metadata: {
             userId: string;
           };
         };
       };
+      const subscription = subscription_details.subscription;
       if (!subscription) {
         throw new Error("Subscription not found");
       }
