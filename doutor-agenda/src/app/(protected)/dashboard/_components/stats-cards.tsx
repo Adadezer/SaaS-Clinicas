@@ -4,7 +4,6 @@ import {
   CalendarIcon,
   DollarSignIcon,
   StethoscopeIcon,
-  UserIcon,
   UsersIcon,
 } from "lucide-react";
 

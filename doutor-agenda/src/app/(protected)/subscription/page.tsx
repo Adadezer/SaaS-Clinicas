@@ -1,3 +1,6 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 import {
   PageContainer,
   PageContent,
@@ -6,12 +9,10 @@ import {
   PageHeaderContent,
   PageTitle,
 } from "@/components/ui/page-container";
-
-import { SubscriptionPlan } from "./_components/subscription-plan";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+
 import { PremiumPlan } from "./_components/premium-plan";
+import { SubscriptionPlan } from "./_components/subscription-plan";
 
 const SubscriptionPage = async () => {
   const session = await auth.api.getSession({
