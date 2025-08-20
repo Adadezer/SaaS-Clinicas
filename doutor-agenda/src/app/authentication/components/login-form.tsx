@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import ShowPasswordButton from "./show-password-button";
 
 function LoginForm() {
   const router = useRouter();
@@ -75,6 +76,8 @@ function LoginForm() {
     });
   }
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <Card>
       <Form {...form}>
@@ -105,13 +108,19 @@ function LoginForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Digite sua senha"
-                      type="password"
-                      {...field}
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        placeholder="Digite sua senha"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                    </FormControl>
+                    <ShowPasswordButton
+                      showPassword={showPassword}
+                      setShowPassword={setShowPassword}
                     />
-                  </FormControl>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

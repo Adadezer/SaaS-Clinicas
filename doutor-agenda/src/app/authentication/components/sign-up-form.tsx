@@ -1,9 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,22 +27,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import ShowPasswordButton from "./show-password-button";
 
 function SignUpForm() {
   const router = useRouter();
 
-  const registerSchema = z.object({
-    name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
-    email: z
-      .string()
-      .trim()
-      .min(1, { message: "Email é obrigatório" })
-      .email({ message: "Email inválido" }),
-    password: z
-      .string()
-      .trim()
-      .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
-  });
+  const registerSchema = z
+    .object({
+      name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
+      email: z
+        .string()
+        .trim()
+        .min(1, { message: "Email é obrigatório" })
+        .email({ message: "Email inválido" }),
+      password: z
+        .string()
+        .trim()
+        .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
+      confirmPassword: z
+        .string()
+        .trim()
+        .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "As senhas não coincidem",
+      path: ["confirmPassword"],
+    });
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -50,8 +60,12 @@ function SignUpForm() {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     try {
@@ -125,13 +139,45 @@ function SignUpForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Digite sua senha"
-                      type="password"
-                      {...field}
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        placeholder="Digite sua senha"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        className="pr-10"
+                      />
+                    </FormControl>
+                    <ShowPasswordButton
+                      showPassword={showPassword}
+                      setShowPassword={setShowPassword}
                     />
-                  </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirme a Senha</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        placeholder="Repita sua senha"
+                        type={showConfirmPassword ? "text" : "password"}
+                        {...field}
+                        className="pr-10"
+                      />
+                    </FormControl>
+                    <ShowPasswordButton
+                      showPassword={showConfirmPassword}
+                      setShowPassword={setShowConfirmPassword}
+                    />
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

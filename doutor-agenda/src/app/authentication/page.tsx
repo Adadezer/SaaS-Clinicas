@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 
 import LoginForm from "./components/login-form";
 import SignUpForm from "./components/sign-up-form";
+import Image from "next/image";
 
 async function AuthenticationPage() {
   const session = await auth.api.getSession({
@@ -20,6 +21,14 @@ async function AuthenticationPage() {
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-6">
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={200}
+          height={200}
+          className="align-center mx-auto mb-4"
+        />
+
         <Tabs defaultValue="login">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login" className="hover: cursor-pointer">
