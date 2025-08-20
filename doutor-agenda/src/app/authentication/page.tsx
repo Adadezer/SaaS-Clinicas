@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -7,7 +8,6 @@ import { auth } from "@/lib/auth";
 
 import LoginForm from "./components/login-form";
 import SignUpForm from "./components/sign-up-form";
-import Image from "next/image";
 
 async function AuthenticationPage() {
   const session = await auth.api.getSession({
