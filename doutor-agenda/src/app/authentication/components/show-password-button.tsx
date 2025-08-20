@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
 import React from "react";
 
-import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ShowPasswordButtonProps {
   showPassword: boolean;
