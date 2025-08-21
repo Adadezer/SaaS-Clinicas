@@ -4,6 +4,7 @@ import {
   MoreVerticalIcon,
   TrashIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -33,8 +34,6 @@ import {
 import { patientsTable } from "@/db/schema";
 
 import UpsertPatientForm from "./upsert-patient-form";
-
-import { useRouter } from "next/navigation";
 
 interface PatientsTableActionsProps {
   patient: typeof patientsTable.$inferSelect;
@@ -83,7 +82,7 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
             onClick={() => router.push(`/patients/${patient.id}/history`)}
             className="hover:cursor-pointer"
           >
-            <ClipboardList className="mr-2 h-4 w-4" />
+            <ClipboardList className="h-4 w-4" />
             Histórico
           </DropdownMenuItem>
 

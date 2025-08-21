@@ -1,8 +1,10 @@
+import { eq } from "drizzle-orm";
+import React from "react";
+
 import { DataTable } from "@/components/ui/data-table";
 import { db } from "@/db";
 import { appointmentsTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import React from "react";
+
 import { appointmentsTableColumns } from "../../appointments/_components/table-columns";
 
 interface PatientHistoryProps {

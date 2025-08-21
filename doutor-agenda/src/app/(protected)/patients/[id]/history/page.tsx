@@ -1,11 +1,12 @@
+import { eq } from "drizzle-orm";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import PatientHistory from "../../_components/patient-history";
-import { Button } from "@/components/ui/button";
 
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import PatientHistory from "../../_components/patient-history";
 
 interface PatientPageProps {
   params: {
