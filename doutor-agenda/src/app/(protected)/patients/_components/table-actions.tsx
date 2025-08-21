@@ -1,4 +1,10 @@
-import { EditIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
+import {
+  ClipboardList,
+  EditIcon,
+  MoreVerticalIcon,
+  TrashIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -36,6 +42,8 @@ interface PatientsTableActionsProps {
 const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
   const [upsertDialogIsOpen, setUpsertDialogIsOpen] = useState(false);
 
+  const router = useRouter();
+
   const deletePatientAction = useAction(deletePatient, {
     onSuccess: () => {
       toast.success("Paciente deletado com sucesso.");
@@ -61,6 +69,7 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
         <DropdownMenuContent>
           <DropdownMenuLabel>{patient.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
             onClick={() => setUpsertDialogIsOpen(true)}
             className="hover: cursor-pointer"
@@ -68,6 +77,15 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
             <EditIcon />
             Editar
           </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => router.push(`/patients/${patient.id}/history`)}
+            className="hover:cursor-pointer"
+          >
+            <ClipboardList className="h-4 w-4" />
+            Histórico
+          </DropdownMenuItem>
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <DropdownMenuItem
