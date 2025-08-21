@@ -12,7 +12,7 @@
 
 ## 🩺 Detalhes da aplicação
 Na plataforma é possível adicionar, editar, e excluir médicos e pacientes da clínica. 
-Agendar consultas, filtar e visualizar histórico de pacientes, e visualizar faturamento da clínica através de um gráfico, assim como também simular o pagamento do plano e logar com sua própria conta do google.
+Agendar consultas, filtrar e visualizar histórico de pacientes, e visualizar faturamento da clínica através de um gráfico, assim como também simular o pagamento do plano e logar com sua própria conta do google.
 
 
 ## 💻 Tecnologias Utilizadas
