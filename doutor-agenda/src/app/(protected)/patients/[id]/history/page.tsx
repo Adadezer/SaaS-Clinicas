@@ -7,7 +7,6 @@ import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 
 import PatientHistory from "../../_components/patient-history";
-import { id } from "date-fns/locale";
 
 interface PatientHystoryPage {
   params: Promise<{ id: string }>;
