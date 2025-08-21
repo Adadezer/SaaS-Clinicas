@@ -7,16 +7,16 @@ import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 
 import PatientHistory from "../../_components/patient-history";
+import { id } from "date-fns/locale";
 
 interface PatientHystoryPage {
-  params: {
-    id: Promise<{ slug: string }>;
-  };
+  params: Promise<{ id: string }>;
 }
 
-const PatientHystoryPage = async ({ params }: { params: { id: string } }) => {
+const PatientHystoryPage = async ({ params }: PatientHystoryPage) => {
+  const { id } = await params;
   const patient = await db.query.patientsTable.findFirst({
-    where: eq(patientsTable.id, params.id),
+    where: eq(patientsTable.id, id),
   });
 
   if (!patient) {
@@ -38,7 +38,7 @@ const PatientHystoryPage = async ({ params }: { params: { id: string } }) => {
         </Button>
       </div>
 
-      <PatientHistory patientId={params.id} />
+      <PatientHistory patientId={id} />
     </div>
   );
 };
