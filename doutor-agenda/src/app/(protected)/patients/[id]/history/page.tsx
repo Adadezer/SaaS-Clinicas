@@ -7,11 +7,14 @@ import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 
 import PatientHistory from "../../_components/patient-history";
-interface PageParams {
-  id: string;
+
+interface PatientHystoryPage {
+  params: {
+    id: Promise<{ slug: string }>;
+  };
 }
 
-const PatientHystoryPage = async ({ params }: { params: PageParams }) => {
+const PatientHystoryPage = async ({ params }: { params: { id: string } }) => {
   const patient = await db.query.patientsTable.findFirst({
     where: eq(patientsTable.id, params.id),
   });
