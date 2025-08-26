@@ -17,7 +17,7 @@ const ClearFilterPatientButton = ({
   setPatients,
   initialPatients,
 }: ClearFilterPatientButtonProps) => {
-  const handleClear = () => {
+  const handleClearPatient = () => {
     if (setSearchPatient) setSearchPatient("");
     setPatients(initialPatients);
   };
@@ -27,7 +27,7 @@ const ClearFilterPatientButton = ({
       <Button
         type="button"
         variant="ghost"
-        onClick={handleClear}
+        onClick={handleClearPatient}
         className="hover:text-primary absolute top-1/2 right-2 -translate-y-1/2 text-gray-500 hover:cursor-pointer hover:bg-transparent"
       >
         <SearchX size={16} />
