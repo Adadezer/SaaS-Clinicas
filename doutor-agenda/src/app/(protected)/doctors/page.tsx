@@ -17,7 +17,7 @@ import { doctorsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import AddDoctorButton from "./_components/add-doctor-button";
-import DoctorCard from "./_components/doctor-card";
+import FilterDoctor from "./_components/filter-doctor";
 
 async function DoctorsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -52,13 +52,7 @@ async function DoctorsPage() {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
-          {doctors.map((doctor) => (
-            <div key={doctor.id}>
-              <DoctorCard doctor={doctor} />
-            </div>
-          ))}
-        </div>
+        <FilterDoctor initialDoctors={doctors} />
       </PageContent>
     </PageContainer>
   );
