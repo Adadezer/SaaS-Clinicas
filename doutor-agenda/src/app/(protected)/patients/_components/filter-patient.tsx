@@ -18,36 +18,36 @@ interface FilterPatientProps {
 
 const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
   const [patients, setPatients] = useState(initialPatients);
-  const [search, setSearch] = useState("");
+  const [searchPatient, setSearchPatient] = useState("");
 
-  const handleFilter = async () => {
-    if (!search) {
+  const handleFilterPatient = async () => {
+    if (!searchPatient) {
       setPatients(initialPatients);
       return;
     }
 
-    const results = await getPatientByNameAction(search, clinicId);
+    const results = await getPatientByNameAction(searchPatient, clinicId);
     setPatients(results);
   };
 
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <div className="relative max-w-60 flex-1">
+        <div className="relative max-w-64 flex-1">
           <Input
             placeholder="Buscar paciente"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchPatient}
+            onChange={(e) => setSearchPatient(e.target.value)}
             className="pr-10"
           />
           <ClearFilterPatientButton
-            search={search}
-            setSearch={setSearch}
+            search={searchPatient}
+            setSearchPatient={setSearchPatient}
             setPatients={setPatients}
             initialPatients={initialPatients}
           />
         </div>
-        <Button onClick={handleFilter}>Filtrar</Button>
+        <Button onClick={handleFilterPatient}>Buscar</Button>
       </div>
       <DataTable data={patients} columns={patientTableColumns} />
     </div>
