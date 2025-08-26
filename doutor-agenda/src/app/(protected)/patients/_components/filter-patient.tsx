@@ -18,15 +18,15 @@ interface FilterPatientProps {
 
 const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
   const [patients, setPatients] = useState(initialPatients);
-  const [search, setSearch] = useState("");
+  const [searchPatient, setSearchPatient] = useState("");
 
   const handleFilter = async () => {
-    if (!search) {
+    if (!searchPatient) {
       setPatients(initialPatients);
       return;
     }
 
-    const results = await getPatientByNameAction(search, clinicId);
+    const results = await getPatientByNameAction(searchPatient, clinicId);
     setPatients(results);
   };
 
@@ -36,13 +36,13 @@ const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
         <div className="relative max-w-60 flex-1">
           <Input
             placeholder="Buscar paciente"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchPatient}
+            onChange={(e) => setSearchPatient(e.target.value)}
             className="pr-10"
           />
           <ClearFilterPatientButton
-            search={search}
-            setSearch={setSearch}
+            search={searchPatient}
+            setSearchPatient={setSearchPatient}
             setPatients={setPatients}
             initialPatients={initialPatients}
           />

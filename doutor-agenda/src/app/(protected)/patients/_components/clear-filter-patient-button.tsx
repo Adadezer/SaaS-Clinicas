@@ -6,19 +6,19 @@ import { patientsTable } from "@/db/schema";
 
 interface ClearFilterPatientButtonProps {
   search?: string;
-  setSearch?: (search: string) => void;
+  setSearchPatient?: (search: string) => void;
   setPatients: (patients: (typeof patientsTable.$inferSelect)[]) => void;
   initialPatients: (typeof patientsTable.$inferSelect)[];
 }
 
 const ClearFilterPatientButton = ({
   search,
-  setSearch,
+  setSearchPatient,
   setPatients,
   initialPatients,
 }: ClearFilterPatientButtonProps) => {
   const handleClear = () => {
-    if (setSearch) setSearch("");
+    if (setSearchPatient) setSearchPatient("");
     setPatients(initialPatients);
   };
 
