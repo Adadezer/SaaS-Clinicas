@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { UsersRound } from "lucide-react";
 
 import {
   Table,
@@ -69,7 +70,10 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                Nenhum resultado encontrado.
+                <div className="flex items-center justify-center gap-2">
+                  <p>Nenhum resultado encontrado</p>
+                  <UsersRound className="text-primary h-4 w-4" />
+                </div>
               </TableCell>
             </TableRow>
           )}

@@ -33,7 +33,7 @@ const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <div className="relative max-w-60 flex-1">
+        <div className="relative max-w-64 flex-1">
           <Input
             placeholder="Buscar paciente"
             value={searchPatient}
@@ -47,7 +47,7 @@ const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
             initialPatients={initialPatients}
           />
         </div>
-        <Button onClick={handleFilterPatient}>Filtrar</Button>
+        <Button onClick={handleFilterPatient}>Buscar</Button>
       </div>
       <DataTable data={patients} columns={patientTableColumns} />
     </div>
