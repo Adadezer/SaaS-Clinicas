@@ -20,7 +20,7 @@ const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
   const [patients, setPatients] = useState(initialPatients);
   const [searchPatient, setSearchPatient] = useState("");
 
-  const handleFilter = async () => {
+  const handleFilterPatient = async () => {
     if (!searchPatient) {
       setPatients(initialPatients);
       return;
@@ -47,7 +47,7 @@ const FilterPatient = ({ initialPatients, clinicId }: FilterPatientProps) => {
             initialPatients={initialPatients}
           />
         </div>
-        <Button onClick={handleFilter}>Filtrar</Button>
+        <Button onClick={handleFilterPatient}>Filtrar</Button>
       </div>
       <DataTable data={patients} columns={patientTableColumns} />
     </div>
