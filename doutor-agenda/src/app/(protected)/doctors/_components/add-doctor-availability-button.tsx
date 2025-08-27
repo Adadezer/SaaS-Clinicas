@@ -20,7 +20,7 @@ function AddDoctorAvailabilityButton({
       <DialogTrigger asChild>
         <div className="hover:text-primary hover:border-primary flex cursor-pointer items-center gap-2 text-sm">
           Adicionar mais horários
-          <CirclePlus strokeWidth={0.8} />
+          <CirclePlus strokeWidth={0.8} className="h-5 w-5" />
         </div>
       </DialogTrigger>
       <InsertDoctorAvailabilityForm

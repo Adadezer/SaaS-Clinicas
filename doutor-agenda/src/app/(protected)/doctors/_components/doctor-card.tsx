@@ -96,13 +96,13 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
       </CardHeader>
       <Separator />
 
-      <CardContent className="relative mt-5 flex flex-1 flex-col gap-2">
-        {/* Botão centralizado no topo do conteúdo */}
-        <div className="absolute -top-7 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1">
+      <CardContent className="relative flex flex-1 flex-col items-center gap-2 p-2">
+        <div className="absolute -top-2 flex-col gap-1">
           <AddDoctorAvailabilityButton doctorId={doctor.id} />
         </div>
+
         {/* Disponibilidade principal */}
-        <div className="mt-3 flex gap-2">
+        <div className="mt-6 flex gap-2 rounded-md p-2">
           <Badge variant="outline">
             <CalendarIcon className="mr-1" />
             {availability.from.format("dddd")} a{" "}
@@ -115,32 +115,36 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
           </Badge>
         </div>
 
-        {/* Disponibilidades adicionais (se vierem do banco) */}
+        {/* Disponibilidades adicionais */}
         {doctor.availabilities?.length ? (
-          <div className="flex flex-col gap-2">
+          <div className="mt-1 mb-2 flex w-full flex-col flex-wrap gap-2">
             {doctor.availabilities.map((availability) => {
               const adittional = getAdditionalAvailability(availability);
 
               return (
-                <div key={availability.id} className="flex gap-2">
-                  <Badge variant="secondary">
+                <div
+                  key={availability.id}
+                  className="flex flex-col flex-wrap items-center gap-2 rounded-md border border-solid p-2 md:flex-row"
+                >
+                  <Badge variant="outline" className="flex w-48">
                     <CalendarIcon className="mr-1" />
                     {adittional.from.format("dddd") ===
                     adittional.to.format("dddd")
                       ? adittional.from.format("dddd")
                       : `${adittional.from.format("dddd")} a ${adittional.to.format("dddd")}`}
                   </Badge>
-                  <Badge variant="secondary">
+                  <Badge variant="outline" className="flex">
                     <ClockIcon className="mr-1" />
                     {`${adittional.from.format("HH:mm")} às ${adittional.to.format("HH:mm")}`}
                   </Badge>
+                  <TrashIcon className="h-4 w-4 hover:cursor-pointer" />
                 </div>
               );
             })}
           </div>
         ) : null}
 
-        <Badge variant="outline">
+        <Badge variant="secondary" className="flex w-xs">
           <DollarSignIcon className="mr-1" />
           {formatCurrencyInCents(doctor.appointmentPriceInCents)}
         </Badge>
