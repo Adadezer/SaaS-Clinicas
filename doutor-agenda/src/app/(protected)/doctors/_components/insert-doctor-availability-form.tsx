@@ -1,3 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { insertDoctorAvailability } from "@/actions/insert-doctor-available";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,14 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { doctorsAvailabilitiesTable, doctorsTable } from "@/db/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { doctorsAvailabilitiesTable } from "@/db/schema";
 
 const formDoctorAvailabilitySchema = z
   .object({

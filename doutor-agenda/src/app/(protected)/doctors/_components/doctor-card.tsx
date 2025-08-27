@@ -33,10 +33,10 @@ import { doctorsTable } from "@/db/schema";
 import { formatCurrencyInCents } from "@/helpers/currency";
 
 import { getAvatarUrl } from "../../../../helpers/avatar-generate";
-import { getAvailability } from "../_helpers/availability";
-import UpsertDoctorForm from "./upsert-doctor-form";
-import AddDoctorAvailabilityButton from "./add-doctor-availability-button";
 import { getAdditionalAvailability } from "../_helpers/adittional-availability";
+import { getAvailability } from "../_helpers/availability";
+import AddDoctorAvailabilityButton from "./add-doctor-availability-button";
+import UpsertDoctorForm from "./upsert-doctor-form";
 
 interface DoctorCardProps {
   doctor: typeof doctorsTable.$inferSelect & {

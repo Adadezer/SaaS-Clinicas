@@ -1,9 +1,10 @@
 "use client";
 
-import { CirclePlus, Plus } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import React, { useState } from "react";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+
 import InsertDoctorAvailabilityForm from "./insert-doctor-availability-form";
 
 interface AddDoctorAvailabilityButtonProps {
