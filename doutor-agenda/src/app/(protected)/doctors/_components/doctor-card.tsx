@@ -35,9 +35,19 @@ import { formatCurrencyInCents } from "@/helpers/currency";
 import { getAvatarUrl } from "../../../../helpers/avatar-generate";
 import { getAvailability } from "../_helpers/availability";
 import UpsertDoctorForm from "./upsert-doctor-form";
+import AddDoctorAvailabilityButton from "./add-doctor-availability-button";
+import { getAdditionalAvailability } from "../_helpers/adittional-availability";
 
 interface DoctorCardProps {
-  doctor: typeof doctorsTable.$inferSelect;
+  doctor: typeof doctorsTable.$inferSelect & {
+    availabilities?: {
+      id: string;
+      fromWeekDay: number;
+      toWeekDay: number;
+      fromTime: string;
+      toTime: string;
+    }[];
+  };
 }
 
 const DoctorCard = ({ doctor }: DoctorCardProps) => {
@@ -67,7 +77,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
   });
 
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <div className="flex items-center gap-2">
           <Avatar className="h-10 w-10">
@@ -85,16 +95,51 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         </div>
       </CardHeader>
       <Separator />
-      <CardContent className="flex flex-col gap-2">
-        <Badge variant="outline">
-          <CalendarIcon className="mr-1" />
-          {availability.from.format("dddd")} a {availability.to.format("dddd")}
-        </Badge>
-        <Badge variant="outline">
-          <ClockIcon className="mr-1" />
-          {availability.from.format("HH:mm")} as{" "}
-          {availability.to.format("HH:mm")}
-        </Badge>
+
+      <CardContent className="relative mt-5 flex flex-1 flex-col gap-2">
+        {/* Botão centralizado no topo do conteúdo */}
+        <div className="absolute -top-7 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1">
+          <AddDoctorAvailabilityButton doctorId={doctor.id} />
+        </div>
+        {/* Disponibilidade principal */}
+        <div className="mt-3 flex gap-2">
+          <Badge variant="outline">
+            <CalendarIcon className="mr-1" />
+            {availability.from.format("dddd")} a{" "}
+            {availability.to.format("dddd")}
+          </Badge>
+          <Badge variant="outline">
+            <ClockIcon className="mr-1" />
+            {availability.from.format("HH:mm")} às{" "}
+            {availability.to.format("HH:mm")}
+          </Badge>
+        </div>
+
+        {/* Disponibilidades adicionais (se vierem do banco) */}
+        {doctor.availabilities?.length ? (
+          <div className="flex flex-col gap-2">
+            {doctor.availabilities.map((availability) => {
+              const adittional = getAdditionalAvailability(availability);
+
+              return (
+                <div key={availability.id} className="flex gap-2">
+                  <Badge variant="secondary">
+                    <CalendarIcon className="mr-1" />
+                    {adittional.from.format("dddd") ===
+                    adittional.to.format("dddd")
+                      ? adittional.from.format("dddd")
+                      : `${adittional.from.format("dddd")} a ${adittional.to.format("dddd")}`}
+                  </Badge>
+                  <Badge variant="secondary">
+                    <ClockIcon className="mr-1" />
+                    {`${adittional.from.format("HH:mm")} às ${adittional.to.format("HH:mm")}`}
+                  </Badge>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+
         <Badge variant="outline">
           <DollarSignIcon className="mr-1" />
           {formatCurrencyInCents(doctor.appointmentPriceInCents)}

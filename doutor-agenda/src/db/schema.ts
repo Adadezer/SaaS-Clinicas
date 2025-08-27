@@ -152,6 +152,31 @@ export const doctorsTable = pgTable("doctors", {
     .$onUpdate(() => new Date()),
 });
 
+export const doctorsAvailabilitiesTable = pgTable("doctors_availabilities", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  doctorId: uuid("doctor_id")
+    .notNull()
+    .references(() => doctorsTable.id, { onDelete: "cascade" }),
+  fromWeekDay: integer("from_week_day").notNull(),
+  toWeekDay: integer("to_week_day").notNull(),
+  fromTime: time("from_time").notNull(),
+  toTime: time("to_time").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+});
+
+export const doctorAvailabilitiesTableRelations = relations(
+  doctorsAvailabilitiesTable,
+  ({ one }) => ({
+    doctor: one(doctorsTable, {
+      fields: [doctorsAvailabilitiesTable.doctorId],
+      references: [doctorsTable.id],
+    }),
+  }),
+);
+
 export const doctorsTableRelations = relations(
   doctorsTable,
   ({ many, one }) => ({
@@ -160,6 +185,7 @@ export const doctorsTableRelations = relations(
       references: [clinicsTable.id],
     }),
     appointments: many(appointmentsTable),
+    availabilities: many(doctorsAvailabilitiesTable),
   }),
 );
 
