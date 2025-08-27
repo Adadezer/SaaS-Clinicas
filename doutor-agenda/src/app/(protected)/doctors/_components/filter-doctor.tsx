@@ -1,7 +1,7 @@
 "use client";
 
 import { Stethoscope } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -32,6 +32,10 @@ const FilterDoctor = ({ initialDoctors }: FilterDoctorProps) => {
 
     setDoctors(filteredDoctors);
   };
+
+  useEffect(() => {
+    setDoctors(initialDoctors);
+  }, [initialDoctors]);
 
   return (
     <div className="space-y-4">

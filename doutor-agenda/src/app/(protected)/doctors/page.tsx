@@ -36,6 +36,9 @@ async function DoctorsPage() {
 
   const doctors = await db.query.doctorsTable.findMany({
     where: eq(doctorsTable.clinicId, session.user.clinic.id),
+    with: {
+      availabilities: true,
+    },
   });
 
   return (
