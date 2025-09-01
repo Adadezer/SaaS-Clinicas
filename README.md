@@ -29,9 +29,9 @@ Agendar consultas, filtrar e visualizar histórico de pacientes, e visualizar fa
 ## ⚙️ Como Utilizar
 
  - Você pode acessar a aplicação [clicando nesse link](https://saas-clinicas.vercel.app/)
-- Faça login ou crie uma conta para usar
+- Faça login ou crie uma conta para usar (o e-mail usado na hora de criar a conta pode ser ficticio).
 
--  Na hora de entrar  você deverá "fazer uma assinatura", em um plano fictício, pois a ideia é utilizar a plataforma mediante ao pagamento de mensalidades. Utilize esse número de cartão `4242 4242 4242 4242`, esse é o número do cartão de teste, com ele você não será cobrado de nada (não se preocupe rsrs), o resto das informações podem ser fictícias. Depois clique em *Assinar*.
+-  Na hora de entrar você deverá "fazer uma assinatura", em um plano fictício, pois a ideia é utilizar a plataforma mediante ao pagamento de mensalidades. Utilize esse número de cartão `4242 4242 4242 4242`, esse é o número do cartão de teste, com ele você não será cobrado de nada (não se preocupe rsrs), o resto das informações podem ser fictícias. Depois clique em *Assinar*.
 
 - Depois digite o nome da clinica e comece a usar!
 
@@ -66,7 +66,9 @@ Caso queira clonar o repositório e rodar ele localmente, siga esses passos:
 
 ## 📌 Considerações
 
-- O projeto usa uma chave de testes no Stripe que tem um limite de tempo onde ela fica online, caso tenha problemas para logar, ou utilizar a plataforma, me mande uma mensagem no [linkedin](https://www.linkedin.com/in/adadezer-iwazaki/), ou no email `adadezer@gmail.com` e terei o maior prazer em te ajudar .
+- O projeto está constantemente recebendo utualizações, caso perceba pequenas ações incompletas é normal, elas estão sendo implementadas aos poucos para mostrar que é possivel realizar tal ação conforme a plataforma vai sendo expandida, a aplicação sempre estará funcionando com seus requisitos mínimos e totalmente navegavel.
+
+- O projeto usa uma chave de testes no Stripe que tem um limite de tempo onde ela fica online, caso tenha problemas para logar, ou utilizar a plataforma, me mande uma mensagem no [linkedin](https://www.linkedin.com/in/adadezer-iwazaki/), ou no email `adadezer@gmail.com` e terei o maior prazer em te ajudar.
 
 ## 🔗 Links
 <span >
